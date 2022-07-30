@@ -1,9 +1,12 @@
 <template>
-  <div class="w-100 px-3 py-2 my-2 d-flex flex-row flex-wrap justify-content-start align-items-center task-content">
+  <div class="w-100 px-3 py-2 my-2 d-flex flex-row flex-wrap justify-content-between align-items-center task-content">
     <label class="d-flex flex-row justify-content-start align-items-center">
       <input v-model="task.done" type="checkbox" class="me-2 custom-checkbox">
       <span :class="task.done === true ? 'done' : ''">{{task.text}}</span>
     </label>
+    <a class="deleteTask d-flex align-items-center justify-content-center">
+      <font-awesome-icon icon="fa-solid fa-trash-can" size="md" style=""/>
+    </a>
   </div>
 </template>
 
@@ -48,5 +51,17 @@ export default {
 
   .done {
     text-decoration: line-through;
+  }
+
+  .deleteTask {
+    width: 28px;
+    height: 28px;
+    color: #252727;
+  }
+
+  .deleteTask:hover {
+    background-color: #252727;
+    border-radius: 50%;
+    color: white;
   }
 </style>

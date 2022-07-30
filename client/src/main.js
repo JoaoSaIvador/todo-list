@@ -9,7 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import VueDragscroll from 'vue-dragscroll'
@@ -22,7 +22,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 library.add(faPlus);
-library.add(faCirclePlus);
+library.add(faTrashCan);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueDragscroll);
