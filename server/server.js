@@ -1,7 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const mongoose = require('mongoose');
 
-//const MONGODB = "mongodb+srv://joaosalvador:bYE80U5aSRyO67PK@cluster0.zpxvahx.mongodb.net/?retryWrites=true&w=majority";
 require('dotenv').config();
 const MONGODB = process.env.MONGODB_CONNECTION;
 
