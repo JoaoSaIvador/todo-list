@@ -1,47 +1,18 @@
 const { ApolloServer } = require("apollo-server");
+const mongoose = require('mongoose');
 
-const typeDefs = `
-    type Task {
-        id: ID
-        text: String
-        done: Boolean
-    }
+const MONGODB = "mongodb+srv://joaosalvador:bYE80U5aSRyO67PK@cluster0.zpxvahx.mongodb.net/?retryWrites=true&w=majority";
 
-    type Query {
-        tasks: [Task]
-    }
-
-    input TaskInput {
-        text: String
-        done: Boolean
-    }
-
-    type Mutation {
-        saveTask(task: TaskInput): Task
-    }
-`;
-
-const tasks = [
-    { id: 1, text: "Workout", done: false},
-    { id: 2, text: "Clean the room", done: false},
-    { id: 3, text: "Study", done: false}
-];
-
-const resolvers = {
-    Query: {
-        tasks() {
-            return tasks;
-        }
-    },
-    Mutation: {
-        saveTask(_, args) {
-            const task = args.task;
-            task.id = 2342342;
-            tasks.unshift(task);
-            return task;
-        }
-    }
-};
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers');
 
 const server = new ApolloServer({ typeDefs, resolvers });
-server.listen();
+
+mongoose.connect(MONGODB, {useNewUrlParser: true})
+    .then(() => {
+        console.log("Mongo DB Connection successful!");
+        return server.listen({port: 4000});
+    })
+    .then((res) => {
+        console.log(`Server running at ${res.url}`);
+    })

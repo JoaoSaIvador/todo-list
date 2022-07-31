@@ -1,11 +1,11 @@
 <template>
   <div class="w-100 px-3 py-2 my-2 d-flex flex-row flex-wrap justify-content-between align-items-center task-content">
-    <label class="d-flex flex-row justify-content-start align-items-center">
+    <label @click.self="task.done = !task.done" class="d-flex flex-row justify-content-start align-items-center">
       <input v-model="task.done" type="checkbox" class="me-2 custom-checkbox">
       <span :class="task.done === true ? 'done' : ''">{{task.text}}</span>
     </label>
-    <a class="deleteTask d-flex align-items-center justify-content-center">
-      <font-awesome-icon icon="fa-solid fa-trash-can" size="md" style=""/>
+    <a @click.prevent="$emit('removeTask', task)" class="deleteTask d-flex align-items-center justify-content-center">
+      <font-awesome-icon icon="fa-solid fa-trash-can" style=""/>
     </a>
   </div>
 </template>
@@ -24,11 +24,6 @@ export default {
     background-color: white;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 5px 10px,rgba(0, 0, 0, 0.02) 0px 5px 5px;
-  }
-
-  .task-content:hover {
-    box-shadow: rgba(0, 0, 0, 0.02  ) 0px 5px 10px,rgba(0, 0, 0, 0.02) 0px 5px 5px;
-
   }
 
   .custom-checkbox {

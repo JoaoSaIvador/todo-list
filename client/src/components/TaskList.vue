@@ -2,14 +2,14 @@
   <b-container class="h-100 d-flex align-items-center">
     <b-container class="page-content bg-light d-flex flex-column align-items-center py-5 px-5">
       <h1 style="color: #252727">Tasks</h1>
-      <b-form @submit="addTask" class="w-100 my-4 d-flex flex-row justify-content-around align-items-center">
+      <b-form @submit.prevent="addTask" class="w-100 my-4 d-flex flex-row justify-content-around align-items-center">
         <input v-model="taskText" placeholder="Enter your task" class="me-2 search-bar form-control bg-light"/>
-        <button @click="addTask" class="btn btn-dark d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
-          <font-awesome-icon icon="fa-solid fa-plus" size="lg" style=""/>
-        </button>
+        <a @click.prevent="addTask" class="addTask d-flex align-items-center justify-content-center">
+          <font-awesome-icon icon="fa-solid fa-plus"/>
+        </a>
       </b-form>
       <div class="w-100 d-flex flex-column align-items-center scroll">
-        <Task v-for="(task, index) in tasks" :key="index" :task="task" />
+        <Task v-for="(task, index) in tasks" :key="index" :task="task" @removeTask="removeTask"/>
       </div>
     </b-container>
   </b-container>
@@ -35,8 +35,6 @@ export default {
   },
   methods: {
     addTask(event) {
-      event.preventDefault();
-
       if(this.taskText != '') {
         axios({
           url: "http://localhost:4000",
@@ -71,7 +69,7 @@ export default {
         data: {
           query: `
             {
-              tasks {
+              getTasks {
                 id
                 text
                 done
@@ -80,7 +78,26 @@ export default {
           `
         }
       }).then(response => {
-        this.tasks = response.data.data.tasks;
+        this.tasks = response.data.data.getTasks;
+      });
+    },
+    removeTask(task) {
+      console.log(task.id);
+      axios ({
+        url: "http://localhost:4000",
+        method: "post",
+        data: {
+          query: `
+            mutation ($id: ID) {
+              removeTask(ID: $id)
+            }
+          `,
+            variables: {
+              id: task.id
+            }
+        }
+      }).then(() => {
+        this.tasks.splice(this.tasks.indexOf(task), 1);
       });
     }
   }
@@ -125,11 +142,27 @@ export default {
     border-right: 0px;
     border-left: 0px;
     border-bottom: 2px solid #252727;
+    width: 85%;
 
   }
 
   .form-control:focus {
         border-color: #252727;
         box-shadow: none;
+  }
+
+  .addTask {
+    background-color: white;
+    border-radius: 50%;
+    color: #252727;
+    width: 38px;
+    height: 38px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 5px 10px,rgba(0, 0, 0, 0.02) 0px 5px 5px;
+  }
+
+  .addTask:hover {
+    background-color: #252727;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 15px 15px,rgba(0, 0, 0, 0.04) 0px 15px 15px;
   }
 </style>
