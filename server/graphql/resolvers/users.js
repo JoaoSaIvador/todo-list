@@ -4,6 +4,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
+	Query: {
+		async getUser(_, { ID }) {
+			return await User.findById(ID);
+		}
+	},
 	Mutation: {
 		async registerUser(_, { registerInput: { username, email, password } }) {
 

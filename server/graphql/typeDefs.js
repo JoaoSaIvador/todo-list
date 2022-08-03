@@ -17,6 +17,7 @@ module.exports = gql`
 
     type Query {
         getTasks: [Task]
+		getUser(id: ID!): User
     }
 
     input TaskInput {
