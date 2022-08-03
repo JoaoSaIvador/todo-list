@@ -1,21 +1,18 @@
 <template>
   <div class="primary-div">
-    <TaskList/>
+    <TaskList />
   </div>
 </template>
 
 <script>
-
-import TaskList from '@/components/TaskList'
+import TaskList from "@/components/TaskList";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
-    TaskList
-  }
-}
+    TaskList,
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

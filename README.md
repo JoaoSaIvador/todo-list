@@ -3,6 +3,9 @@
 ## Project setup
 ```
 npm install
+
+cd server
+Create a .env file and paste MONGODB_CONNECTION=<your mongodb connection string>
 ```
 
 ### Compiles and hot-reloads for development

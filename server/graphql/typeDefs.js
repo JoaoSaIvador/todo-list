@@ -8,6 +8,13 @@ module.exports = gql`
         createdAt: String
     }
 
+	type User {
+		username: String
+		email: String
+		password: String
+		token: String
+	}
+
     type Query {
         getTasks: [Task]
     }
@@ -17,8 +24,20 @@ module.exports = gql`
         done: Boolean
     }
 
+	input RegisterInput {
+		username: String
+		email: String
+		password: String
+	}
+
+	input LoginInput {
+		email: String
+		password: String
+	}
+
     type Mutation {
-        saveTask(task: TaskInput): Task
+        createTask(task: TaskInput): Task
         removeTask(ID: ID): Boolean
+		registerUser(registerInput: RegisterInput): User
     }
 `;
