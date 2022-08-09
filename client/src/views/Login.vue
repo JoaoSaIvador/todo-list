@@ -31,12 +31,10 @@
             </b-form-group>
           </div>
 
-          <div class="d-flex flex-row justify-content-center">
-            <b-button class="mt-3" variant="dark" type="submit">
-              Login
-            </b-button>
+          <div class="d-flex flex-row justify-content-center mt-5">
+            <b-button variant="dark" type="submit"> Login </b-button>
             <b-button
-              class="mt-3 ms-2 btn"
+              class="ms-2 btn"
               variant="outline-dark"
               @click="$router.push('register')"
             >

@@ -5,7 +5,6 @@
     class="todo-navbar d-flex flex-row justify-content-between"
   >
     <b-navbar-brand>Minimal Todo List</b-navbar-brand>
-
     <b-navbar-nav class="ml-auto">
       <b-nav-item @click="$router.push('/')">Home</b-nav-item>
       <b-nav-item @click="logout">Logout</b-nav-item>
