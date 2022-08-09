@@ -5,7 +5,7 @@ require('dotenv').config();
 const MONGODB = process.env.MONGODB_CONNECTION;
 
 const typeDefs = require('./graphql/typeDefs');
-const resolvers = require('./graphql/resolvers/tasks');
+const resolvers = require('./graphql/resolvers/index');
 
 const server = new ApolloServer({ typeDefs, resolvers });
 

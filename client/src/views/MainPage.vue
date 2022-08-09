@@ -8,7 +8,6 @@
 import TaskList from "@/components/TaskList";
 
 export default {
-  name: "HomeView",
   components: {
     TaskList,
   },

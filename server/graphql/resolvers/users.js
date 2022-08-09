@@ -47,6 +47,36 @@ module.exports = {
 				id: res.id,
 				...res._doc
 			};
+		},
+		async loginUser(_, { loginInput: { email, password } }) {
+
+			// Check if user exists with the same email and if given password is correct
+			const user = await User.findOne({ email });
+
+			if (!user) {
+				throw new ApolloError('User does not exist!', 'USER_DOES_NOT_EXIST');
+			}
+
+			if (!(await bcrypt.compare(password, user.password))) {
+				throw new ApolloError('Incorrect password!', 'INCORRECT_PASSWORD');
+			}
+
+			// Create JWT
+			const token = jwt.sign(
+				{ user_id: user._id, email },
+				process.env.JWT_SECRET,
+				{
+					expiresIn: "2h"
+				}
+			);
+
+			user.token = token;
+
+			return {
+				id: user.id,
+				...user._doc
+			};
+
 		}
 	}
 };

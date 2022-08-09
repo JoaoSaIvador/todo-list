@@ -40,5 +40,6 @@ module.exports = gql`
         createTask(task: TaskInput): Task
         removeTask(ID: ID): Boolean
 		registerUser(registerInput: RegisterInput): User
+		loginUser(loginInput: LoginInput): User
     }
 `;
