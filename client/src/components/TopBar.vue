@@ -8,9 +8,7 @@
 
     <b-navbar-nav class="ml-auto">
       <b-nav-item @click="$router.push('/')">Home</b-nav-item>
-      <b-nav-item @click="$router.push('login')">Login</b-nav-item>
-      <b-nav-item @click="$router.push('register')">Register</b-nav-item>
-      <b-nav-item href="#">Logout</b-nav-item>
+      <b-nav-item @click="logout">Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
@@ -18,7 +16,12 @@
 <script>
 export default {
   name: "TopBar",
-  props: {},
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push("login");
+    },
+  },
 };
 </script>
 

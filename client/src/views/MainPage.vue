@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import axios from "axios/dist/axios";
 import TaskList from "@/components/TaskList";
 
 export default {

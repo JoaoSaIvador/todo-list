@@ -25,6 +25,7 @@
           v-for="(task, index) in tasks"
           :key="index"
           :task="task"
+          @toggleTask="toggleTask"
           @removeTask="removeTask"
         />
       </div>
@@ -48,7 +49,32 @@ export default {
     };
   },
   created() {
-    this.getTasks();
+    // User not authorized
+    const token = localStorage.getItem("token");
+    if (!token) {
+      this.$router.push("/login");
+    } else {
+      axios({
+        url: "http://localhost:4000",
+        method: "post",
+        data: {
+          query: `
+            query VerifyUser($token: String!) {
+              verifyUser(token: $token) {
+                username
+                email
+              }
+            }
+          `,
+          variables: {
+            token: token,
+          },
+        },
+      }).then((response) => {
+        localStorage.setItem("authUser", response.data.data.verifyUser.email);
+        this.getTasks();
+      });
+    }
   },
   methods: {
     createTask(event) {
@@ -62,6 +88,7 @@ export default {
                 newTask: createTask(task: $task) {
                   text
                   done
+                  user
                 }
               }
             `,
@@ -69,6 +96,7 @@ export default {
               task: {
                 text: this.taskText,
                 done: false,
+                user: localStorage.getItem("authUser"),
               },
             },
           },
@@ -85,18 +113,39 @@ export default {
         method: "post",
         data: {
           query: `
-            {
-              getTasks {
-                id
-                text
-                done
+              query Query($user: String!) {
+                getTasks(user: $user) {
+                  id
+                  text
+                  done
+                  user
+                }
               }
-            }
           `,
+          variables: {
+            user: localStorage.getItem("authUser"),
+          },
         },
       }).then((response) => {
         this.tasks = response.data.data.getTasks;
       });
+    },
+    toggleTask(task) {
+      axios({
+        url: "http://localhost:4000",
+        method: "post",
+        data: {
+          query: `
+            mutation ($id: ID, $user: String) {
+              toggleTask(ID: $id, user: $user)
+            }
+          `,
+          variables: {
+            id: task.id,
+            user: localStorage.getItem("authUser"),
+          },
+        },
+      }).then(() => {});
     },
     removeTask(task) {
       axios({
@@ -104,12 +153,13 @@ export default {
         method: "post",
         data: {
           query: `
-            mutation ($id: ID) {
-              removeTask(ID: $id)
+            mutation ($id: ID, $user: String) {
+              removeTask(ID: $id, user: $user)
             }
           `,
           variables: {
             id: task.id,
+            user: localStorage.getItem("authUser"),
           },
         },
       }).then(() => {

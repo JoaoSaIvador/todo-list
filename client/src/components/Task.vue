@@ -3,10 +3,15 @@
     class="w-100 px-3 py-2 my-2 d-flex flex-row flex-wrap justify-content-between align-items-center task-content"
   >
     <label
-      @click.self="task.done = !task.done"
+      @click.self="editTask"
       class="d-flex flex-row justify-content-start align-items-center"
     >
-      <input v-model="task.done" type="checkbox" class="me-2 custom-checkbox" />
+      <input
+        v-model="task.done"
+        @click.self="editTask"
+        type="checkbox"
+        class="me-2 custom-checkbox"
+      />
       <span :class="task.done === true ? 'done' : ''">{{ task.text }}</span>
     </label>
     <a
@@ -22,6 +27,13 @@
 export default {
   props: {
     task: Object,
+  },
+  methods: {
+    editTask() {
+      console.log(this.task);
+      this.task.done = !this.task.done;
+      this.$emit("toggleTask", this.task);
+    },
   },
 };
 </script>

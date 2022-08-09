@@ -82,8 +82,11 @@ export default {
             },
           },
         },
-      }).then(() => {
-        this.$router.push("/");
+      }).then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.data.loginUser.token);
+          this.$router.push("/");
+        }
       });
     },
     onReset() {

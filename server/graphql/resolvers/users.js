@@ -7,6 +7,19 @@ module.exports = {
 	Query: {
 		async getUser(_, { ID }) {
 			return await User.findById(ID);
+		},
+		async verifyUser(_, { token }) {
+
+			var decoded = null;
+			try {
+				decoded = jwt.verify(token, process.env.JWT_SECRET);
+			} catch (err) {
+				throw new ApolloError('Invalid token!', 'INVALID_TOKEN');
+			}
+
+			// Token valid
+			const email = decoded.email;
+			return await User.findOne({ email });
 		}
 	},
 	Mutation: {
