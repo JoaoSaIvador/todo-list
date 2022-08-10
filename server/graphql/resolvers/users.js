@@ -13,13 +13,16 @@ module.exports = {
 			var decoded = null;
 			try {
 				decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+				// Token valid
+				const email = decoded.email;
+				return await User.findOne({ email });
 			} catch (err) {
-				throw new ApolloError('Invalid token!', 'INVALID_TOKEN');
+				//throw new ApolloError('Invalid token!', 'INVALID_TOKEN');
 			}
 
-			// Token valid
-			const email = decoded.email;
-			return await User.findOne({ email });
+			// Token invalid
+			return null;
 		}
 	},
 	Mutation: {
@@ -47,7 +50,7 @@ module.exports = {
 				{ user_id: newUser._id, email },
 				process.env.JWT_SECRET,
 				{
-					expiresIn: "2h"
+					expiresIn: "2min"
 				}
 			);
 

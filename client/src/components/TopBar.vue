@@ -5,7 +5,7 @@
     class="todo-navbar d-flex flex-row justify-content-between"
   >
     <b-navbar-brand>Minimal Todo List</b-navbar-brand>
-    <b-navbar-nav class="ml-auto">
+    <b-navbar-nav v-if="isHome" class="ml-auto">
       <b-nav-item @click="$router.push('/')">Home</b-nav-item>
       <b-nav-item @click="logout">Logout</b-nav-item>
     </b-navbar-nav>
@@ -19,6 +19,11 @@ export default {
     logout() {
       localStorage.clear();
       this.$router.push("login");
+    },
+  },
+  computed: {
+    isHome() {
+      return this.$route.name === "home";
     },
   },
 };

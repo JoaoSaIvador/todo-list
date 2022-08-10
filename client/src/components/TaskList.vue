@@ -71,8 +71,13 @@ export default {
           },
         },
       }).then((response) => {
-        localStorage.setItem("authUser", response.data.data.verifyUser.email);
-        this.getTasks();
+        if (response.data.data.verifyUser) {
+          localStorage.setItem("authUser", response.data.data.verifyUser.email);
+          this.getTasks();
+        } else {
+          localStorage.clear();
+          this.$router.push("login");
+        }
       });
     }
   },
